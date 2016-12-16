@@ -79,7 +79,7 @@
 	
 	defineProperties({
 
-		*
+		/**
 		 * Registers a new module constructor
 		 * If an array is passed in the second argument, the third argument is required as constructor
 		 * If a constuctor is passed in the second argument, the third argument can be ommited
@@ -87,7 +87,7 @@
 		 * @param  {string} moduleName
 		 * @param  {array|function} constructorOrDependencies - The construtor function of the module class | list of dependencies
 		 * @param  {function} constructor - The construtor function of the module class
-		 
+		 */
 		module : function (moduleName, constructorOrDependencies, constructor ) {
 
 			if ( moduleName in modulesMap ) {

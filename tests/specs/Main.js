@@ -1,7 +1,4 @@
-var root = this;
-var App = root.App;
-
-console.log('App',App);
+var App = window.App = window.App || {};
 
 describe('Main Application', function () {
 
@@ -10,7 +7,7 @@ describe('Main Application', function () {
 	})
 	
 	it('can register a module', function () {
-		var testModule = function(){};
+		var testModule = {};
 		App.module('InitialModule',testModule);
 		expect(App.get('InitialModule').name).toBe('InitialModule');
 	});
@@ -20,9 +17,7 @@ describe('Main Application', function () {
 	// -----------------------------------------------------------------------------
 
 	describe('Dependency injection', function () {
-		let value;
-
-
+		
 	});
 
 });

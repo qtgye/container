@@ -8,21 +8,28 @@ var rename = require('gulp-rename');
 var watch = require('gulp-watch');
 var jasmine = require('gulp-jasmine');
 var jasmineBrowser = require('gulp-jasmine-browser');
+var http = require('http');
 // var reporters = require('jasmine-reporters');
 var args = process.argv.slice(3);
 
-var filesForTest = ['dist/app.js','dist/tests.js'];
+var filesForTest = ['dist/tests.js'];
+var jasmineDir = 'jasmine-standalone';
+var serverRunning = false;
+var distFiles = {
+	app : 'app.js',
+	tests : 'tests.js'
+};
 
 
 function getConfig () {
-	return JSON.parse(fs.readFileSync('./config.json','utf-8'));
+	return JSON.parse(fs.readFileSync(`${__dirname}/config.json`,'utf-8'));
 }
 
 
 function combineAppScripts () {
 
 	var containerFile = getConfig().container;
-	containerFile = `containers/${containerFile}`;
+	containerFile = `${__dirname}/containers/${containerFile}`;
 
 	if ( !fs.existsSync(containerFile) ) {
 		console.log(`Main container file is missing : "${containerFile}"`);
@@ -30,7 +37,7 @@ function combineAppScripts () {
 	}
 
 	return gulp.src([containerFile,'tests/modules/*.js'])
-			.pipe(concat('app.js'))
+			.pipe(concat(distFiles.app))
 			.pipe(uglify())
 			.on('error', function (err) {
 				console.error(Error(err));
@@ -50,13 +57,22 @@ function combineSpecScripts () {
 	});
 
 	return gulp.src(specFilesList)
-		.pipe(concat('tests.js'))
-		.pipe(uglify())
+		.pipe(concat(distFiles.tests))
+		// .pipe(uglify())
 		.on('error', function (err) {
 			console.error(Error(err));
 		})
 		.pipe(gulp.dest('dist'))
-		.on('end', jasmineConsole);
+		.on('end', copyToJasmineRoot);
+}
+
+
+function copyToJasmineRoot () {
+	console.log('\nCopying to Jasmine directory...\n');
+	var appContents = fs.readFileSync('dist/'+distFiles.app,'utf-8');
+	var testsContents = fs.readFileSync('dist/'+distFiles.tests,'utf-8');
+	fs.writeFileSync(`${jasmineDir}/src/${distFiles.app}`,appContents);
+	fs.writeFileSync(`${jasmineDir}/spec/${distFiles.tests}`,testsContents);
 }
 
 
@@ -81,10 +97,10 @@ gulp.task('jasmine-browser', function () {
 
 	gulp.src(filesForTest)
 		.pipe(watch(filesForTest))
-	    .pipe(jasmineBrowser.specRunner())
-	    .pipe(jasmineBrowser.server({
-	    		port: 8888
-	    }));
+		.pipe(jasmineBrowser.specRunner())
+		.pipe(jasmineBrowser.server({
+				port: 8888
+		}));
 });
 
 
@@ -93,7 +109,7 @@ gulp.task('jasmine-console', jasmineConsole);
 gulp.task('scripts', combineAppScripts);
 
 gulp.task('watch', ['scripts'], function () {
-	gulp.watch(['container.js','tests/modules/**/*.js', 'tests/specs/**/*.js'], ['scripts']);
+	gulp.watch(['tests/**/*.js'], ['scripts']);
 });
 
 
