@@ -1,0 +1,40 @@
+{
+  "name": "container",
+  "version": "0.0.1",
+  "description": "A simple Javascript application container.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qtgye/container.git"
+  },
+  "keywords": [
+    "container",
+    "js",
+    "javascript",
+    "ioc",
+    "dependency",
+    "injection"
+  ],
+  "author": "Jayson Buquia <buquia.jace@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qtgye/container/issues"
+  },
+  "homepage": "https://github.com/qtgye/container",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-jasmine": "^2.4.2",
+    "gulp-jasmine-browser": "^1.7.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.7",
+    "gulp-watch": "^4.3.10",
+    "jasmine-reporters": "^2.2.0",
+    "node-notifier": "^4.6.1"
+  }
+}

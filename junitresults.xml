@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+ <testsuite name="Main Application" timestamp="2016-11-23T20:42:24" hostname="localhost" time="0.009" errors="0" tests="2" skipped="0" disabled="0" failures="2">
+  <testcase classname="Main Application" name="is defined" time="0.005">
+   <failure type="toBeDefined" message="Expected undefined to be defined."><![CDATA[Error: Expected undefined to be defined.
+    at stack (/Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1640:17)
+    at buildExpectationResult (/Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1610:14)
+    at Spec.Env.expectationResultFactory (/Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:655:18)
+    at Spec.addExpectationResult (/Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:342:34)
+    at Expectation.addExpectationResult (/Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:599:21)
+    at Expectation.toBeDefined (/Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1564:12)
+    at Object.<anonymous> (/Users/Jace/Sites/tests/container/dist/tests.js:1:168)
+    at attemptSync (/Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1950:24)
+    at QueueRunner.run (/Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1938:9)
+    at QueueRunner.execute (/Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1923:10)]]>
+   </failure>
+  </testcase>
+  <testcase classname="Main Application" name="can register a module" time="0.001">
+   <failure type="exception" message="TypeError: Cannot read property &apos;module&apos; of undefined"><![CDATA[TypeError: Cannot read property 'module' of undefined
+    at Object.<anonymous> (/Users/Jace/Sites/tests/container/dist/tests.js:1:244)
+    at attemptSync (/Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1950:24)
+    at QueueRunner.run (/Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1938:9)
+    at QueueRunner.execute (/Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1923:10)
+    at Spec.Env.queueRunnerFactory (/Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:714:35)
+    at Spec.execute (/Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:371:10)
+    at Object.fn (/Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:2579:37)
+    at attemptAsync (/Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1980:24)
+    at QueueRunner.run (/Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1935:9)
+    at /Users/Jace/Sites/tests/container/node_modules/gulp-jasmine/node_modules/jasmine/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1962:16]]>
+   </failure>
+  </testcase>
+ </testsuite>
+ <testsuite name="TestModule" timestamp="2016-11-23T20:42:24" hostname="localhost" time="0.001" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="TestModule" name="test module" time="0.001" />
+ </testsuite>
+</testsuites>

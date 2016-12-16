@@ -1,0 +1,1 @@
+var root=this,App=root.App;console.log("App",App),describe("Main Application",function(){it("is defined",function(){expect(App).toBeDefined()}),it("can register a module",function(){var e=function(){};App.module("InitialModule",e),expect(App.get("InitialModule").name).toBe("InitialModule")})}),describe("TestModule",function(){it("test module",function(){expect(!0).toBe(!0)})});
