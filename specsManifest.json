@@ -1,5 +1,7 @@
 {
 	"files" : [
+		"utilities/interpolateData.js",
+
 		"Main.js",
 		"TestModule.js"
 	]

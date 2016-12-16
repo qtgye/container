@@ -9,7 +9,7 @@ describe('Main Application', function () {
 	it('can register a module', function () {
 		var testModule = {};
 		App.module('InitialModule',testModule);
-		expect(App.get('InitialModule').name).toBe('InitialModule');
+		expect(typeof App.get('InitialModule') == 'object').toBe(true);
 	});
 
 
