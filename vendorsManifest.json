@@ -1,0 +1,4 @@
+[
+	"bower_components/bottlejs/dist/bottle.min.js",
+	"utilities/interpolateData.js"
+]

@@ -28,6 +28,7 @@ function getConfig () {
 
 function combineAppScripts () {
 
+	var vendorFiles = JSON.parse(fs.readFileSync('vendorsManifest.json'));
 	var containerFile = getConfig().container;
 	containerFile = `${__dirname}/containers/${containerFile}`;
 
@@ -36,7 +37,11 @@ function combineAppScripts () {
 		return;
 	}
 
-	return gulp.src([containerFile,'tests/modules/*.js'])
+	var souceFiles = vendorFiles.concat(['tests/utilities/*.js', containerFile,'tests/modules/*.js']);
+
+	console.log('\n\nCombining app files...\n\n');
+
+	return gulp.src(souceFiles)
 			.pipe(concat(distFiles.app))
 			.pipe(uglify())
 			.on('error', function (err) {
@@ -55,6 +60,8 @@ function combineSpecScripts () {
 	specFilesList = specFilesList.map(function (_filePath) {
 		return 'tests/specs/' + _filePath;
 	});
+
+	console.log('\n\nCombining spec files...\n\n');
 
 	return gulp.src(specFilesList)
 		.pipe(concat(distFiles.tests))
@@ -109,7 +116,7 @@ gulp.task('jasmine-console', jasmineConsole);
 gulp.task('scripts', combineAppScripts);
 
 gulp.task('watch', ['scripts'], function () {
-	gulp.watch(['tests/**/*.js'], ['scripts']);
+	gulp.watch(['specsManifest.json','vendorsManifest.json','containers/*.js','tests/**/*.js'], ['scripts']);
 });
 
 
