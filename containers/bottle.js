@@ -103,7 +103,7 @@
 			}
 
 			constructorFunction.prototype.name = moduleName;
-			moduleArguments = [ moduleName, constructorFunction ].concat(dependencies)
+			moduleArguments = [ moduleName, constructorFunction ].concat(dependencies);
 
 			bottle.service.apply(bottle,moduleArguments);
 

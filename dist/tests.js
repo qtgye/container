@@ -25,13 +25,12 @@ describe('Main Application', function () {
 	});
 
 	it('should support ES2015 classes as constructors', function () {
-		var ModuleClass1 = class {
+		App.module('ModuleClass1', ['BaseClass'], class {
 			constructor ( name ) {
 				this.moduleName = 'Module Class 1'
 			}
-		}
-		App.module('ModuleClass1',ModuleClass1);
-		expect(App.get('ModuleClass1') instanceof ModuleClass1 ).toBe(true);
+		});
+		expect(App.get('ModuleClass1') instanceof App.get('ModuleClass1').constructor ).toBe(true);
 	})
 
 	it('does not allow a module to be redefined', function () {
