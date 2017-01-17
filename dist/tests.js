@@ -60,8 +60,10 @@ describe('Main Application', function () {
 			};
 			var SecondModule = function(){
 			};
-			var ThirdModule = function (FirstModule,SecondModule) {
-				this.firstModuleName = FirstModule.name;
+			var ThirdModule = class {
+				constructor (FirstModule,SecondModule) {
+					this.firstModuleName = FirstModule.name;
+				}
 			}
 
 			App.module('SecondModule',SecondModule);
@@ -71,39 +73,6 @@ describe('Main Application', function () {
 			expect(App.get('FirstModule').secondModuleName).toBe(SecondModule.prototype.name);
 			expect(App.get('ThirdModule').firstModuleName).toBe(FirstModule.prototype.name);
 
-		});
-
-		it('allows extension of constructors/classes', function () {
-			class BaseClass {
-				getModuleName () {
-					return this.moduleName;
-				}
-			}
-			class SubClass extends BaseClass {
-				constructor () {
-					super();
-					this.moduleName = 'Sub Class';
-				}
-			}
-			var BaseConstructor = function () {
-				this.getModuleName = function () {
-					return this.moduleName;
-				}
-			}
-			class BaseConstructorChild extends BaseConstructor {
-				constructor () {
-					super();
-					this.moduleName = 'BaseConstructorChild Class';
-				}
-			}
-
-			App.module('BaseClass',BaseClass);
-			App.module('SubClass',['BaseClass'],SubClass);
-			App.module('BaseConstructor',BaseConstructor);
-			App.module('BaseConstructorChild',['BaseConstructor'],BaseConstructorChild);
-
-			expect(App.get('SubClass').getModuleName()).toEqual('Sub Class');
-			expect(App.get('BaseConstructorChild').getModuleName()).toEqual('BaseConstructorChild Class');
 		});
 
 	});
