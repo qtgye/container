@@ -7,7 +7,7 @@
 
 
 
-	/** 
+	/**
 	 * --------------------------------------------------------------------------------------------
 	 * APP DECLARATION
 	 * --------------------------------------------------------------------------------------------
@@ -21,12 +21,12 @@
 
 
 
-	/** 
+	/**
 	 * --------------------------------------------------------------------------------------------
 	 * PRIVATE VARIABLES
 	 * --------------------------------------------------------------------------------------------
 	 */
-	
+
 	// IOC CONTAINER
 	var bottle = new Bottle();
 
@@ -36,12 +36,12 @@
 
 
 
-	/** 
+	/**
 	 * --------------------------------------------------------------------------------------------
 	 * PRIVATE FUNCTIONS
 	 * --------------------------------------------------------------------------------------------
 	 */
-	
+
 	function defineProperties (_props) {
 		for ( key in _props ) {
 			Object.defineProperty(App, key, {
@@ -69,19 +69,19 @@
 
 
 
-	/** 
+	/**
 	 * --------------------------------------------------------------------------------------------
 	 * PUBLIC PROPERTIES AND METHODS
 	 * --------------------------------------------------------------------------------------------
 	 */
-	
+
 	defineProperties({
 
 		/**
 		 * Registers a new module constructor
 		 * If an array is passed in the second argument, the third argument is required as constructor
 		 * If a constuctor is passed in the second argument, the third argument can be ommited
-		 * 
+		 *
 		 */
 		module : function (moduleName, constructorOrDependencies, constructor ) {
 
@@ -93,7 +93,7 @@
 			var constructorFunction;
 			var moduleArguments = [];
 
-			// IF SECOND 
+			// IF SECOND
 			if ( Array.isArray(args[1]) ) {
 				dependencies = dependencies.concat(args[1]);
 				constructorFunction = args[2];
@@ -135,12 +135,12 @@
 
 
 
-	/** 
+	/**
 	 * --------------------------------------------------------------------------------------------
 	 * INIT
 	 * --------------------------------------------------------------------------------------------
 	 */
-	
+
 	if ( root.document && root.document.addEventListener ) {
 		document.addEventListener('DOMContentLoaded', App.init);
 	} else {

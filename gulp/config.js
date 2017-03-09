@@ -8,6 +8,8 @@ module.exports = {
 
 	inProduction : process.env.PRODUCTION,
 
+	container : 'bottle.js',
+
 	// styles : {
 	// 	src : [`${cwd}/assets/sass/main.scss`],
 	// 	dest : `${cwd}/dist/css`,
@@ -37,10 +39,11 @@ module.exports = {
 	// },
 
 	test : {
+		dest : `${cwd}/tests`,
+
 		specFiles : [
 			`${cwd}/tests/utilities/interpolateData.js`,
-			`${cwd}/tests/specs/Main.js`,
-			`${cwd}/tests/specs/TestModule.js`,
+			`${cwd}/tests/specs/**/*.js`,
 			`${cwd}/tests/components/**/*.js`,
 			`${cwd}/tests/services/**/*.js`,
 		],

@@ -37,6 +37,8 @@
     "gulp-watch": "^4.3.10",
     "gulpfile-preset": "^1.8.7",
     "jasmine-reporters": "^2.2.0",
-    "node-notifier": "^4.6.1"
+    "jasmine-spec-reporter": "^3.2.0",
+    "node-notifier": "^4.6.1",
+    "phantomjs": "^2.1.7"
   }
 }

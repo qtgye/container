@@ -10,7 +10,11 @@ let defaultHandler = function (err) {
 	})
 }
 
-module.exports = function ({ title, message, showstack = true }) {
+module.exports = function ({
+		title,
+		message,
+		showstack = true } = {})
+	{
 
 	return plumber( error => {
 		// Console notification

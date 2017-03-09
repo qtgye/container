@@ -1,6 +1,6 @@
-var App = window.App = window.App || {};
-
 describe('Main Application', function () {
+
+	var App = window.App = window.App || {};
 
 	it('is defined', function () {
 		expect(App).toBeDefined();
@@ -14,7 +14,7 @@ describe('Main Application', function () {
 		expect(App.module).not.toEqual(123);
 		expect(App.init).not.toEqual(undefined);
 	});
-	
+
 	it('can register a module', function () {
 		var InitialModule = function(){
 			this.name = 'InitialModule';
@@ -24,14 +24,14 @@ describe('Main Application', function () {
 		expect(App.get('InitialModule').name).toBe('InitialModule');
 	});
 
-	it('should support ES2015 classes as constructors', function () {
-		App.module('ModuleClass1', ['BaseClass'], class {
-			constructor ( name ) {
-				this.moduleName = 'Module Class 1'
-			}
-		});
-		expect(App.get('ModuleClass1') instanceof App.get('ModuleClass1').constructor ).toBe(true);
-	})
+	// it('should support ES2015 classes as constructors', function () {
+	// 	App.module('ModuleClass1', ['BaseClass'], class TestClass {
+	// 		constructor ( name ) {
+	// 			this.moduleName = 'Module Class 1'
+	// 		}
+	// 	});
+	// 	expect(App.get('ModuleClass1') instanceof App.get('ModuleClass1').constructor ).toBe(true);
+	// })
 
 	it('does not allow a module to be redefined', function () {
 		var FourthModule = function(){
@@ -49,7 +49,7 @@ describe('Main Application', function () {
 
 
 	// ASYNC LOADING OF DEPENDENCIES
-	// -----------------------------------------------------------------------------
+	// ---------------------------------------------
 
 	describe('Dependency injection', function () {
 
@@ -59,10 +59,8 @@ describe('Main Application', function () {
 			};
 			var SecondModule = function(){
 			};
-			var ThirdModule = class {
-				constructor (FirstModule,SecondModule) {
-					this.firstModuleName = FirstModule.name;
-				}
+			var ThirdModule = function(FirstModule,SecondModule) {
+				this.firstModuleName = FirstModule.name;
 			}
 
 			App.module('SecondModule',SecondModule);

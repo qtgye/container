@@ -1,5 +1,7 @@
 describe('Module Operations', function () {
 
+	var App = window.App = window.App || {};
+
 	it('passing inner constructors', function () {
 		App.module('BaseClass', function () {
 
