@@ -23,7 +23,7 @@ let reporterOptions = {
 	},
 	summary : {
 		displayFailed : true,
-		displayStacktrace : true,
+		// displayStacktrace : true,
 	}
 }
 let reporter = new jasmineReporter(reporterOptions)
