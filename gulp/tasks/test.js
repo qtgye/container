@@ -6,8 +6,8 @@ let tddConfig = app.config.test
 let fs = app.plugin('fs-extra')
 let gulp = app.plugin('gulp')
 let concat = app.plugin('gulp-concat')
-let jasmineBrowser = app.plugin('gulp-jasmine-browser')
-let jasmineReporter = app.plugin('jasmine-spec-reporter').SpecReporter
+let watch = app.plugin('gulp-watch')
+let jasminePhantom = app.plugin('gulp-jasmine-phantom')
 
 // HELPERS
 let notify = app.helper('notify')
@@ -17,23 +17,22 @@ let promise = app.helper('promise');
 
 let dependencies = [ `${app.rootDir}/bower_components/bottlejs/dist/bottle.min.js` ]
 let packageScripts = [ `${app.rootDir}/containers/` + app.config.container ]
-let reporterOptions = {
-	suite: {
-		displayNumber : true
-	},
-	summary : {
-		displayFailed : true,
-		// displayStacktrace : true,
-	}
+let files = [ ...dependencies, ...packageScripts, ...tddConfig.specFiles ]
+
+
+function testTask () {
+	gulp.src(files)
+		.pipe(pluginErrorHandler({ title : 'Jasmine Test Failed!' }))
+		// .pipe(jasmineBrowser.specRunner({console:true}))
+		// .pipe(jasmineBrowser.headless({ reporter : reporter }))
+		.pipe(jasminePhantom({ integration: true }))
 }
-let reporter = new jasmineReporter(reporterOptions)
 
 
 // REGISTER TASK
-gulp.task('test',()=>{
-	let files = [ ...dependencies, ...packageScripts, ...tddConfig.specFiles ]
-	gulp.src(files)
-		.pipe(pluginErrorHandler({ title : 'Jasmine Test Failed!' }))
-		.pipe(jasmineBrowser.specRunner({console:true}))
-		.pipe(jasmineBrowser.headless({ reporter : reporter }))
+gulp.task('test', testTask)
+
+// REGISTER WATCHER
+app.watcher(function () {
+	watch(files, testTask)
 })

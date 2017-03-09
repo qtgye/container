@@ -48,10 +48,10 @@ module.exports = {
 			`${cwd}/tests/services/**/*.js`,
 		],
 		// FOR SOME REASON, GULP-JASMINE-BROWSER DUPLICATES TESTS WHEN ON WATCH, DISABLING FOR NOW
-		// watchFiles : [  // js dist + specs files
-		// 	`${cwd}/dist/js/app.js`,
-		// 	`${cwd}/specs/index.js`,
-		// ]
+		watchFiles : [  // js dist + specs files
+			`${cwd}/dist/js/app.js`,
+			`${cwd}/specs/index.js`,
+		]
 	},
 }
 

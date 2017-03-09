@@ -1,10 +1,11 @@
 describe('Jasmine Spec Runner Tests', function () {
 
-	it('show passing', function () {
+	it('passing', function () {
 		expect(true).toBe(true)
 	})
-	it('show failing', function () {
-		expect(true).toBe(false)
+	it('failing', function () {
+		// expect(true).toBe(false)
+		fail('failing spec')
 	})
 
 })

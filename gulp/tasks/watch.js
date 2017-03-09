@@ -13,16 +13,10 @@ gulp.task('watch',['default'], ()=>{
 	else {
 		console.log('\nRunning watch without browsersync\n'.toUpperCase().yellow);
 	}
-	
 
-	// TASKS WATCHERS
-	for ( let taskName in app.tasks ) {
-		// Skip if not in config file
-		if ( !config[taskName] || !config[taskName].watchFiles ) continue
-		// Watch
-		gulp.watch(config[taskName].watchFiles,[taskName])
-	}
 
+	// RUN REGISTERED WATCHERS
+	app.watcher();
 
 })
 

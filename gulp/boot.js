@@ -1,4 +1,5 @@
 let fs = require('fs')
+let schema = require('duck-type').create();
 require('colors')
 
 // GLOBAL APP INIT
@@ -17,6 +18,9 @@ let exceptions = {}
 
 // CACHED PLUGINS
 let plugins = {}
+
+// CACHED WATCHER CALLBACKS
+let watchers = [];
 
 // CACHED TASK FILES
 App.tasks = {}
@@ -52,7 +56,7 @@ App.helper = function ( helperName ) {
 			helpers[helperName] = require(`${helpersDir}/${fileName}`)
 			return helpers[helperName]
 		} catch (e) {
-			throw e	
+			throw e
 		}
 		// throw new (App.exception('HelperCallError'))(`Called for non-existing helper : ${helperName}`.red )
 	}
@@ -86,6 +90,28 @@ App.tasks = function ( taskList = [] ) {
 }
 
 
+// Register watchers
+App.watcher = function (callback) {
+
+	// Run watchers if no arguments supplied
+	if ( !callback ) {
+		for ( let watcher of watchers ) {
+			watcher()
+		}
+		return
+	}
+
+	// ELSE, REGISTER WATCHER
+
+	// Validate params
+	schema(Function).match(callback)
+
+	// Add to watchers
+	watchers.push(callback)
+
+}
+
+
 
 
 
@@ -97,7 +123,7 @@ App.tasks = function ( taskList = [] ) {
 
 
 // LIST DOWN EXCEPTIONS
-let exceptionsDir = `${gulpDir}/exceptions` 
+let exceptionsDir = `${gulpDir}/exceptions`
 if ( fs.existsSync(exceptionsDir) ) {
 	let files = fs.readdirSync(exceptionsDir)
 	for ( let fileName of files ) {
