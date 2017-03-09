@@ -31,32 +31,9 @@ let reporter = new jasmineReporter(reporterOptions)
 
 // REGISTER TASK
 gulp.task('test',()=>{
-	combineScripts([ ...dependencies, ...packageScripts, ...tddConfig.specFiles ])
-	.then(startTest)
-	.catch(console.error)
-})
-
-
-// PRIVATE FUNCTIONS
-
-function combineScripts (globs) {
-	return promise(function (resolve, reject) {
-		gulp.src(globs)
-			.pipe(pluginErrorHandler({ title : 'Jasmine Test Failed To Start!' }))
-			.pipe(concat('all.js'))
-			.pipe(gulp.dest(tddConfig.dest))
-			.on('error', reject)
-			.on('end', function () {
-				resolve(`${tddConfig.dest}/all.js
-					`)
-			})
-	})
-}
-
-
-function startTest (files) {
+	let files = [ ...dependencies, ...packageScripts, ...tddConfig.specFiles ]
 	gulp.src(files)
 		.pipe(pluginErrorHandler({ title : 'Jasmine Test Failed!' }))
 		.pipe(jasmineBrowser.specRunner({console:true}))
 		.pipe(jasmineBrowser.headless({ reporter : reporter }))
-}
+})
