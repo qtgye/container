@@ -3,7 +3,7 @@ describe('Module Operations', function () {
 	var App = window.App = window.App || {};
 
 	it('passing inner constructors', function () {
-		App.module('BaseClass', function () {
+		App.component('BaseClass', function () {
 
 			// Component constructor
 			function MyComponent (name) {
@@ -17,7 +17,7 @@ describe('Module Operations', function () {
 
 		});
 
-		App.module('ChildClass', ['BaseClass'], function (BaseClass) {
+		App.component('ChildClass', ['BaseClass'], function (BaseClass) {
 			this.components = [];
 			this.ComponentConstructor = BaseClass.getComponentClass();
 			this.createComponent = function (name) {
@@ -28,11 +28,11 @@ describe('Module Operations', function () {
 		});
 
 		// Create sample component
-		var componentOne = App.get('ChildClass').createComponent('componentOne');
+		var componentOne = App.component('ChildClass').createComponent('componentOne');
 
 		// Asserts
 		expect(componentOne.componentName).toEqual('componentOne');
-		expect(componentOne.constructor).toBe(App.get('BaseClass').getComponentClass());
+		expect(componentOne.constructor).toBe(App.component('BaseClass').getComponentClass());
 
 	});
 

@@ -28,7 +28,10 @@ let linterOptions = {
 }
 // Babel options
 let babelOptions = {
-	presets : ['es2015','babili']
+	presets : [
+		'es2015',
+		// 'babili'
+	]
 }
 
 
@@ -78,7 +81,7 @@ function onGulpError (err) {
 	})
 }
 
-function onGulpEnd () {	
+function onGulpEnd () {
 	if ( app.browserSync ) {
 		app.browserSync.reload()
 	}

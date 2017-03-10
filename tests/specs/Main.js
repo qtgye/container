@@ -1,6 +1,6 @@
 describe('Main Application', function () {
 
-	var App = window.App = window.App || {};
+	var App = window.App;
 
 	it('is defined', function () {
 		expect(App).toBeDefined();
@@ -8,44 +8,62 @@ describe('Main Application', function () {
 
 	it('does not allow existing properties to be modified', function () {
 		// Modify prop
-		App.module = 123;
+		App.component = 123;
 		// Delete prop
-		App.init = 999;
-		expect(App.module).not.toEqual(123);
-		expect(App.init).not.toEqual(undefined);
+		delete App.init;
+
+		expect(App.component).not.toBe(123);
+		expect(App.init).toBeDefined();
 	});
 
-	it('can register a module', function () {
+	it('can register a component', function () {
 		var InitialModule = function(){
 			this.name = 'InitialModule';
 		};
-		App.module('InitialModule',InitialModule);
-		expect(typeof App.get('InitialModule') == 'object').toBe(true);
-		expect(App.get('InitialModule').name).toBe('InitialModule');
+		App.component('InitialModule',InitialModule);
+		expect(typeof App.component('InitialModule')).toBe('object');
+		expect(App.component('InitialModule').name).toBe('InitialModule');
 	});
 
-	// it('should support ES2015 classes as constructors', function () {
-	// 	App.module('ModuleClass1', ['BaseClass'], class TestClass {
-	// 		constructor ( name ) {
-	// 			this.moduleName = 'Module Class 1'
-	// 		}
-	// 	});
-	// 	expect(App.get('ModuleClass1') instanceof App.get('ModuleClass1').constructor ).toBe(true);
-	// })
+	it('can register a service', function () {
+		var InitialService = function(){
+			this.name = 'InitialService';
+		};
+		App.service('InitialService',InitialService);
+		expect(typeof App.service('InitialService')).toBe('object');
+		expect(App.service('InitialService').name).toBe('InitialService');
+	});
 
-	it('does not allow a module to be redefined', function () {
-		var FourthModule = function(){
-		};
-		var OverrideModule = function(){
-		};
-		var redefineFourthModule = function () {
-			App.module('FourthModule',OverrideModule);
+	it('does not allow a component/service to be redefined', function () {
+		var redefineComponent = function () {
+			App.component('InitialModule',function () { });
+		}
+		var redefineService = function () {
+			App.service('InitialService',function () { });
 		}
 
-		App.module('FourthModule',FourthModule);
-
-		expect(redefineFourthModule).toThrow();
+		expect(redefineComponent).toThrow();
+		expect(redefineService).toThrow();
 	});
+
+
+	// it('should support ES2015 classes as constructors', function () {
+	// 	var registerClass = function () {
+	// 		try {
+	// 			class TestClass {
+	// 				constructor ( name ) {
+	// 					this.moduleName = 'Module Class 1'
+	// 				}
+	// 			}
+	// 			App.module('ModuleClass1', ['BaseClass'], TestClass);
+	// 		} catch (e) {
+	// 			//
+	// 		}
+	// 	}
+
+	// 	expect(registerClass).not.toThrow();
+	// expect(App.get('ModuleClass1') instanceof App.get('ModuleClass1').constructor ).toBe(true);
+	// })
 
 
 	// ASYNC LOADING OF DEPENDENCIES
@@ -63,12 +81,12 @@ describe('Main Application', function () {
 				this.firstModuleName = FirstModule.name;
 			}
 
-			App.module('SecondModule',SecondModule);
-			App.module('FirstModule',['SecondModule'],FirstModule);
-			App.module('ThirdModule',['FirstModule'],ThirdModule)
+			App.component('SecondModule',SecondModule);
+			App.service('FirstModule',['SecondModule'],FirstModule);
+			App.component('ThirdModule',['FirstModule'],ThirdModule)
 
-			expect(App.get('FirstModule').secondModuleName).toBe(SecondModule.prototype.name);
-			expect(App.get('ThirdModule').firstModuleName).toBe(FirstModule.prototype.name);
+			expect(App.service('FirstModule').secondModuleName).toBe(SecondModule.prototype.name);
+			expect(App.component('ThirdModule').firstModuleName).toBe(FirstModule.prototype.name);
 
 		});
 

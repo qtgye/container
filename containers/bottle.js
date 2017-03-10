@@ -1,4 +1,4 @@
-;(function (root) {
+;(function () {
 
 
 
@@ -12,7 +12,7 @@
 	 * APP DECLARATION
 	 * --------------------------------------------------------------------------------------------
 	 */
-	var App = root.App = root.App || {};
+	var App = window.App = {};
 
 
 
@@ -43,7 +43,7 @@
 	 */
 
 	function defineProperties (_props) {
-		for ( key in _props ) {
+		for ( let key in _props ) {
 			Object.defineProperty(App, key, {
 				value : _props[key]
 			});
@@ -54,10 +54,40 @@
 
 
 
+	/**
+	 * Registers a new service constructor
+	 * If an array is passed in the second argument, the third argument is required as constructor
+	 * If a constuctor is passed in the second argument, the third argument can be ommited
+	 *
+	 */
+	function register ( /* type, name, constructorOrDependencies, constructor */ ) {
+
+		var args = [].slice.call(arguments);
+		var moduleName = args[0];
+		var dependencies = [];
+		var constructorFunction;
+
+		// PREVENT FROM REDEFNING AN EXISTING MODULE
+		if ( moduleName in bottle.container ) { throw Error('Redefining a component/service is not allowed.') }
+
+		// IF SECOND
+		if ( Array.isArray(args[1]) ) {
+			dependencies = dependencies.concat(args[1]);
+			constructorFunction = args[2];
+		}
+		else {
+			constructorFunction = args[1];
+		}
+
+		bottle.service.apply(bottle, [moduleName, constructorFunction].concat(dependencies))
+	}
+
+
+
 	function applyBottleDecorators() {
-		bottle.decorator(function(service) {
-			service.moduleLoaded = true;
-			return service;
+		bottle.decorator(function(module) {
+			module.loaded = true;
+			return module;
 		});
 	}
 
@@ -78,45 +108,30 @@
 	defineProperties({
 
 		/**
-		 * Registers a new module constructor
+		 * Registers a new component constructor
 		 * If an array is passed in the second argument, the third argument is required as constructor
 		 * If a constuctor is passed in the second argument, the third argument can be ommited
-		 *
 		 */
-		module : function (moduleName, constructorOrDependencies, constructor ) {
-
-			if ( moduleName in bottle.container ) throw Error('Redefining a module is not allowed.');
+		component : function ( /* moduleName, constructorOrDependencies, constructor */ ) {
 
 			var args = [].slice.call(arguments);
 			var moduleName = args[0];
-			var dependencies = [];
-			var constructorFunction;
-			var moduleArguments = [];
 
-			// IF SECOND
-			if ( Array.isArray(args[1]) ) {
-				dependencies = dependencies.concat(args[1]);
-				constructorFunction = args[2];
-			}
-			else {
-				constructorFunction = args[1];
+			// If second and third arguments are ommited,
+			// return the component if loaded, otherwise undefined
+			if ( args[1] === undefined && args[2] === undefined ) {
+				if ( moduleName in bottle.container && bottle.container[moduleName].type === 'component' ) {
+					return bottle.container[moduleName];
+				}
+				return undefined;
 			}
 
 			constructorFunction.prototype.name = moduleName;
-			moduleArguments = [ moduleName, constructorFunction ].concat(dependencies);
+			constructorFunction.prototype.type = type;
 
-			bottle.service.apply(bottle,moduleArguments);
+			// Register as as new component
+			register.apply(null, args)
 
-		},
-
-
-		/**
-		 * Gets a registered module
-		 * @param  {string} moduleName - The name of the module to get
-		 * @return {mixed} - Object if found, null if not
-		 */
-		get : function (moduleName) {
-			return bottle.container[moduleName];
 		},
 
 
@@ -141,11 +156,11 @@
 	 * --------------------------------------------------------------------------------------------
 	 */
 
-	if ( root.document && root.document.addEventListener ) {
+	if ( window.document && window.document.addEventListener ) {
 		document.addEventListener('DOMContentLoaded', App.init);
 	} else {
 		App.init();
 	}
 
 
-})(this);
+})();
