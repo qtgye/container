@@ -18,19 +18,18 @@ let promise = app.helper('promise');
 let dependencies = [ `${app.rootDir}/bower_components/bottlejs/dist/bottle.min.js` ]
 let packageScripts = [ `${scriptsConfig.dest}/${scriptsConfig.outputFile}` ]
 let files = [ ...dependencies, ...packageScripts, ...tddConfig.specFiles ]
-let initialRun = false
+let jasminePhantomOptions = {
+	includeStackTrace : true,
+	integration: true,
+	keepRunner : true
+}
 
 
 function testTask () {
 
-	// Prevent on initial run
-	if ( !initialRun ) {
-		return initialRun = true
-	}
-
 	gulp.src(files)
 		.pipe(pluginErrorHandler({ title : 'Jasmine Test Failed!' }))
-		.pipe(jasminePhantom({ integration: true }))
+		.pipe(jasminePhantom(jasminePhantomOptions))
 }
 
 
