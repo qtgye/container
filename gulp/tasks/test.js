@@ -16,7 +16,7 @@ let pluginErrorHandler = app.helper('pluginErrorHandler')
 let promise = app.helper('promise');
 
 let dependencies = [ `${app.rootDir}/bower_components/bottlejs/dist/bottle.min.js` ]
-let packageScripts = [ `${app.rootDir}/containers/` + app.config.container ]
+let packageScripts = [ `${scriptsConfig.dest}/${scriptsConfig.outputFile}` ]
 let files = [ ...dependencies, ...packageScripts, ...tddConfig.specFiles ]
 
 

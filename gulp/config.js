@@ -22,7 +22,7 @@ module.exports = {
 			`${cwd}/containers/bottle.js` ],
 		dest : `${cwd}/dist/js`,
 		outputFile : 'app.js',
-		watchFiles : `${cwd}/assets/js/**/*`
+		watchFiles : `${cwd}/containers/**/*`
 	},
 
 	// images : {
