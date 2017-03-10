@@ -21,6 +21,7 @@ let files = [ ...dependencies, ...packageScripts, ...tddConfig.specFiles ]
 
 
 function testTask () {
+	console.log('starting task');
 	gulp.src(files)
 		.pipe(pluginErrorHandler({ title : 'Jasmine Test Failed!' }))
 		// .pipe(jasmineBrowser.specRunner({console:true}))
@@ -30,6 +31,7 @@ function testTask () {
 
 
 // REGISTER TASK
+console.log('registering task');
 gulp.task('test', testTask)
 
 // REGISTER WATCHER

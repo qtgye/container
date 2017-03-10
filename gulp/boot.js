@@ -79,6 +79,15 @@ App.plugin = function ( pluginName) {
 
 // Register tasks
 App.tasks = function ( taskList = [] ) {
+
+	// Check if running a single task
+	if ( App.args._.length && !App.args._[0].match(/(watch|default)/) ) {
+		taskList = taskList.filter(function (_taskName) {
+			return _taskName === App.args._[0]
+		})
+	}
+
+	// Register all tasks
 	taskList.forEach( taskName =>{
 		let fileName  = taskName + '.js'
 		let path = `${tasksDir}/${fileName}`
