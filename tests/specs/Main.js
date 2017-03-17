@@ -46,6 +46,28 @@ describe('Main Application', function () {
 		expect(redefineService).toThrow();
 	});
 
+	it('immediately initializes components', function () {
+		var componentInitialized = false;
+		var serviceInitialized = false;
+
+		var PersistentComponent = function () {
+			this.init = function () {
+				componentInitialized = true;
+			}
+		}
+
+		var PassiveService = function () {
+			this.init = function () {
+				serviceInitialized = true;
+			}
+		}
+
+		App.component('PersistentComponent',PersistentComponent);
+		expect(componentInitialized).toBe(true);
+		expect(serviceInitialized).toBe(false);
+
+	})
+
 
 	// it('should support ES2015 classes as constructors', function () {
 	// 	var registerClass = function () {

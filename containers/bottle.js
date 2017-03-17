@@ -84,15 +84,24 @@
 		constructorFunction.prototype.type = moduleType;
 
 		bottle.service.apply(bottle, [moduleName, constructorFunction].concat(dependencies))
+
 	}
 
 
 
 	function applyBottleDecorators() {
+
 		bottle.decorator(function(module) {
 			module.loaded = true;
 			return module;
 		});
+
+		bottle.decorator(function (module) {
+			if ( typeof module.init === 'function' ) {
+				module.init();
+			}
+			return module;
+		})
 	}
 
 
@@ -131,7 +140,10 @@
 			}
 
 			// Register as as new component
-			register.apply(null, ['component'].concat(args))
+			register.apply(null, ['component'].concat(args));
+
+			// Immediately initialize components
+			bottle.container[moduleName];
 
 		},
 
