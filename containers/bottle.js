@@ -63,7 +63,8 @@
 	function register ( /* type, name, constructorOrDependencies, constructor */ ) {
 
 		var args = [].slice.call(arguments);
-		var moduleName = args[0];
+		var moduleType = args[0];
+		var moduleName = args[1];
 		var dependencies = [];
 		var constructorFunction;
 
@@ -71,13 +72,16 @@
 		if ( moduleName in bottle.container ) { throw Error('Redefining a component/service is not allowed.') }
 
 		// IF SECOND
-		if ( Array.isArray(args[1]) ) {
-			dependencies = dependencies.concat(args[1]);
-			constructorFunction = args[2];
+		if ( Array.isArray(args[2]) ) {
+			dependencies = dependencies.concat(args[2]);
+			constructorFunction = args[3];
 		}
 		else {
-			constructorFunction = args[1];
+			constructorFunction = args[2];
 		}
+
+		constructorFunction.prototype.name = moduleName;
+		constructorFunction.prototype.type = moduleType;
 
 		bottle.service.apply(bottle, [moduleName, constructorFunction].concat(dependencies))
 	}
@@ -126,11 +130,33 @@
 				return undefined;
 			}
 
-			constructorFunction.prototype.name = moduleName;
-			constructorFunction.prototype.type = type;
-
 			// Register as as new component
-			register.apply(null, args)
+			register.apply(null, ['component'].concat(args))
+
+		},
+
+
+		/**
+		 * Registers a new service constructor
+		 * If an array is passed in the second argument, the third argument is required as constructor
+		 * If a constuctor is passed in the second argument, the third argument can be ommited
+		 */
+		service : function ( /* moduleName, constructorOrDependencies, constructor */ ) {
+
+			var args = [].slice.call(arguments);
+			var moduleName = args[0];
+
+			// If second and third arguments are ommited,
+			// return the service if loaded, otherwise undefined
+			if ( args[1] === undefined && args[2] === undefined ) {
+				if ( moduleName in bottle.container && bottle.container[moduleName].type === 'service' ) {
+					return bottle.container[moduleName];
+				}
+				return undefined;
+			}
+
+			// Register as as new service
+			register.apply(null, ['service'].concat(args))
 
 		},
 
